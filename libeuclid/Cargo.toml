@@ -6,7 +6,6 @@ edition = "2018"
 
 [dependencies]
 euclid = "0.20.7"
-boxer = { git = "https://github.com/feenkcom/gtoolkit-boxer" }
 
 [lib]
 name = "Euclid"
