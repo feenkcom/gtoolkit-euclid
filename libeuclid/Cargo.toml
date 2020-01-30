@@ -1,0 +1,22 @@
+[package]
+name = "libeuclid"
+version = "0.1.0"
+authors = ["Aliaksei Syrel <alex.syrel@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+euclid = "0.20.7"
+boxer = { git = "https://github.com/feenkcom/gtoolkit-boxer" }
+
+[lib]
+name = "Euclid"
+crate-type = ["cdylib"]
+
+[profile.dev]
+opt-level = 0
+debug = true
+debug-assertions = true
+overflow-checks = true
+
+[profile.release]
+opt-level = 3
