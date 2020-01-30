@@ -42,7 +42,7 @@ pub fn euclid_transform3d_f32_row_major_2d(
     m42: f32,
 ) -> *mut ValueBox<Transform3D<f32, c_void, c_void>> {
     ValueBox::new(Transform3D::<f32, c_void, c_void>::row_major_2d(
-        m11, m12, m21, m22,  m41, m42
+        m11, m12, m21, m22, m41, m42,
     ))
     .into_raw()
 }
