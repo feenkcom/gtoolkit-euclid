@@ -9,6 +9,16 @@ Class {
 }
 
 { #category : #'instance creation' }
+GtEuclidTransform2D class >> fromArray: anArrayOfFloats [
+	
+	self
+		assert: [ anArrayOfFloats size = 6 ]
+		description: [ 'Must have 6 elements' ].
+	
+	^ self newFrom: anArrayOfFloats 
+]
+
+{ #category : #'instance creation' }
 GtEuclidTransform2D class >> identity [
 	<script: 'self identity inspect'>
 
@@ -26,6 +36,11 @@ GtEuclidTransform2D class >> initialize [
 { #category : #'instance creation' }
 GtEuclidTransform2D class >> new [
 	^ self identity
+]
+
+{ #category : #'api - transformations' }
+GtEuclidTransform2D >> approxEquals: aGtEuclidTransform2D [
+	^ self primApproxEqual: aGtEuclidTransform2D
 ]
 
 { #category : #initialize }
@@ -49,6 +64,11 @@ GtEuclidTransform2D >> postTranslate: aPoint [
 ]
 
 { #category : #'api - transformations' }
+GtEuclidTransform2D >> postTranslateX: aX Y: aY [
+	self primPostTranslateX: aX Y: aY
+]
+
+{ #category : #'api - transformations' }
 GtEuclidTransform2D >> preRotateRadians: theRadians [
 	self primPreRotate: theRadians
 ]
@@ -61,6 +81,11 @@ GtEuclidTransform2D >> preScale: aPoint [
 { #category : #'api - transformations' }
 GtEuclidTransform2D >> preTranslate: aPoint [
 	self primPreTranslateX: aPoint x Y: aPoint y
+]
+
+{ #category : #'private - ffi' }
+GtEuclidTransform2D >> primApproxEqual: aGtEuclidTransform2D [
+	self ffiCall: #(bool euclid_transform2d_f32_approx_eq(void* self, void* aGtEuclidTransform2D))
 ]
 
 { #category : #'private - ffi' }
@@ -96,4 +121,18 @@ GtEuclidTransform2D >> primPreScaleX: aX Y: aY [
 { #category : #'private - ffi' }
 GtEuclidTransform2D >> primPreTranslateX: aX Y: aY [
 	self ffiCall: #(void euclid_transform2d_f32_pre_translate(void* self, float32 aX, float32 aY))
+]
+
+{ #category : #'private - ffi' }
+GtEuclidTransform2D >> primTransformPoint: aGtEuclidPoint2D [
+	self ffiCall: #(void euclid_transform2d_f32_transform_point(void* self, void* aGtEuclidPoint2D))
+]
+
+{ #category : #'api - transformations' }
+GtEuclidTransform2D >> transformPoint: aGtEuclidPoint2D [
+	"In-place transform and return given point"
+	<return: #GtEuclidPoint2D>
+
+	self primTransformPoint: aGtEuclidPoint2D.
+	^ aGtEuclidPoint2D
 ]
