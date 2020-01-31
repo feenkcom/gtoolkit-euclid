@@ -9,7 +9,7 @@ EpMonitor current disable.
 [ 
   Metacello new
     baseline: 'GToolkitEuclid';
-    repository: 'github://feenkcom/gtoolkit-euclid/src';
+    repository: 'github://feenkcom/gtoolkit-euclid';
     load
-] ensure: [ EpMonitor current enable ].  
+] ensure: [ EpMonitor current enable ].
 ```
