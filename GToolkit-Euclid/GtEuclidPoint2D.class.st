@@ -6,6 +6,11 @@ Class {
 }
 
 { #category : #'instance creation' }
+GtEuclidPoint2D class >> fromPoint: aPoint [
+	^ self x: aPoint x y: aPoint y
+]
+
+{ #category : #'instance creation' }
 GtEuclidPoint2D class >> new [
 	<script: 'self new inspect'>
 

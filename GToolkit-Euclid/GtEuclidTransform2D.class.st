@@ -129,8 +129,8 @@ GtEuclidTransform2D >> primTransformPoint: aGtEuclidPoint2D [
 ]
 
 { #category : #'private - ffi' }
-GtEuclidTransform2D >> primTransformRect: aGtEuclidRect [
-	self ffiCall: #(void euclid_transform2d_f32_transform_rect(void* self, void* aGtEuclidRect))
+GtEuclidTransform2D >> primTransformRect: aGtEuclidRectangle [
+	self ffiCall: #(void euclid_transform2d_f32_transform_rect(void* self, void* aGtEuclidRectangle))
 ]
 
 { #category : #'private - ffi' }
