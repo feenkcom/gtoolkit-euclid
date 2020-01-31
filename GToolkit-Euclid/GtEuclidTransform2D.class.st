@@ -49,6 +49,11 @@ GtEuclidTransform2D >> loadIdentity [
 ]
 
 { #category : #'api - transformations' }
+GtEuclidTransform2D >> postRotateDegrees: theDegrees [
+	self postRotateRadians: theDegrees degreesToRadians
+]
+
+{ #category : #'api - transformations' }
 GtEuclidTransform2D >> postRotateRadians: theRadians [
 	self primPostRotate: theRadians
 ]
@@ -59,8 +64,23 @@ GtEuclidTransform2D >> postScale: aPoint [
 ]
 
 { #category : #'api - transformations' }
+GtEuclidTransform2D >> postScaleX: aX Y: aY [
+	self primPostScaleX: aX Y: aY
+]
+
+{ #category : #'api - transformations' }
+GtEuclidTransform2D >> postTransform: aGtEuclidTransform2D [
+	self primPostTransform: aGtEuclidTransform2D
+]
+
+{ #category : #'api - transformations' }
 GtEuclidTransform2D >> postTranslate: aPoint [
 	self primPostTranslateX: aPoint x Y: aPoint y
+]
+
+{ #category : #'api - transformations' }
+GtEuclidTransform2D >> postTranslateX: aX Y: aY [
+	self primPostTranslateX: aX Y: aY
 ]
 
 { #category : #'api - transformations' }
@@ -71,6 +91,11 @@ GtEuclidTransform2D >> preRotateRadians: theRadians [
 { #category : #'api - transformations' }
 GtEuclidTransform2D >> preScale: aPoint [
 	self primPreScaleX: aPoint x Y: aPoint y
+]
+
+{ #category : #'api - transformations' }
+GtEuclidTransform2D >> preTransform: aGtEuclidTransform2D [
+	self primPreTransform: aGtEuclidTransform2D
 ]
 
 { #category : #'api - transformations' }
@@ -99,6 +124,11 @@ GtEuclidTransform2D >> primPostScaleX: aX Y: aY [
 ]
 
 { #category : #'private - ffi' }
+GtEuclidTransform2D >> primPostTransform: aGtEuclidTransform2D [
+	self ffiCall: #(void euclid_transform2d_f32_post_transform(void* self, void* aGtEuclidTransform2D))
+]
+
+{ #category : #'private - ffi' }
 GtEuclidTransform2D >> primPostTranslateX: aX Y: aY [
 	self ffiCall: #(void euclid_transform2d_f32_post_translate(void* self, float32 aX, float32 aY))
 ]
@@ -111,6 +141,11 @@ GtEuclidTransform2D >> primPreRotate: theRadians [
 { #category : #'private - ffi' }
 GtEuclidTransform2D >> primPreScaleX: aX Y: aY [
 	self ffiCall: #(void euclid_transform2d_f32_pre_scale(void* self, float32 aX, float32 aY))
+]
+
+{ #category : #'private - ffi' }
+GtEuclidTransform2D >> primPreTransform: aGtEuclidTransform2D [
+	self ffiCall: #(void euclid_transform2d_f32_pre_transform(void* self, void* aGtEuclidTransform2D))
 ]
 
 { #category : #'private - ffi' }
