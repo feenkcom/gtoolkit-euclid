@@ -1,62 +1,51 @@
-use euclid::{Transform3D, Vector3D};
+use euclid::{Angle, Transform3D, Vector3D};
 use std::os::raw::c_void;
-use std::intrinsics::transmute;
+
+pub type TransformF32 = Transform3D<f32, c_void, c_void>;
 
 #[no_mangle]
-pub fn euclid_transform3d_f32_load_identity(_transform_ptr: *mut f32) {
-    with_transform(_transform_ptr, |_transform| {
-        transform_copy(Transform3D::<f32, c_void, c_void>::identity(), _transform_ptr);
-    });
-}
-
-#[no_mangle]
-pub fn euclid_transform3d_f32_post_translate(_transform_ptr: *mut f32, x: f32, y: f32, z: f32) {
-    with_transform(_transform_ptr, |transform| {
-        let new_transform = transform.post_translate(Vector3D::new(x, y, z));
-        transform_copy(new_transform, _transform_ptr);
-    });
+pub fn euclid_transform3d_f32_load_identity(transform: &mut TransformF32) {
+    transform.clone_from(&TransformF32::identity());
 }
 
 #[no_mangle]
-pub fn euclid_transform3d_f32_post_scale(_transform_ptr: *mut f32, x: f32, y: f32, z: f32) {
-    with_transform(_transform_ptr, |transform| {
-        let new_transform = transform.post_scale(x, y, z);
-        transform_copy(new_transform, _transform_ptr);
-    });
+pub fn euclid_transform3d_f32_post_translate(transform: &mut TransformF32, x: f32, y: f32, z: f32) {
+    transform.clone_from(&transform.post_translate(Vector3D::new(x, y, z)));
 }
 
 #[no_mangle]
-pub fn euclid_transform3d_f32_pre_translate(_transform_ptr: *mut f32, x: f32, y: f32, z: f32) {
-    with_transform(_transform_ptr, |transform| {
-        let new_transform = transform.pre_translate(Vector3D::new(x, y, z));
-        transform_copy(new_transform, _transform_ptr);
-    });
+pub fn euclid_transform3d_f32_post_scale(transform: &mut TransformF32, x: f32, y: f32, z: f32) {
+    transform.clone_from(&transform.post_scale(x, y, z));
 }
 
 #[no_mangle]
-pub fn euclid_transform3d_f32_pre_scale(_transform_ptr: *mut f32, x: f32, y: f32, z: f32) {
-    with_transform(_transform_ptr, |transform| {
-        let new_transform = transform.pre_scale(x, y, z);
-        transform_copy(new_transform, _transform_ptr);
-    });
+pub fn euclid_transform3d_f32_post_rotate(
+    transform: &mut TransformF32,
+    x: f32,
+    y: f32,
+    z: f32,
+    radians: f32,
+) {
+    transform.clone_from(&transform.post_rotate(x, y, z, Angle::radians(radians)));
 }
 
-#[inline]
-fn with_transform<Block>(_ptr: *mut f32, block: Block)
-where
-    Block: FnOnce(&mut Transform3D<f32, c_void, c_void>),
-{
-    let transform: &mut Transform3D<f32, c_void, c_void> = unsafe { transmute(_ptr) };
-    block(transform);
+#[no_mangle]
+pub fn euclid_transform3d_f32_pre_translate(transform: &mut TransformF32, x: f32, y: f32, z: f32) {
+    transform.clone_from(&transform.pre_translate(Vector3D::new(x, y, z)));
 }
 
-#[inline]
-fn transform_copy(_src: Transform3D<f32, c_void, c_void>, dst: *mut f32) {
-    unsafe {
-        std::ptr::copy_nonoverlapping(
-            &_src as *const Transform3D<f32, c_void, c_void>,
-            dst as *mut Transform3D<f32, c_void, c_void>,
-            1,
-        )
-    };
+#[no_mangle]
+pub fn euclid_transform3d_f32_pre_scale(transform: &mut TransformF32, x: f32, y: f32, z: f32) {
+    transform.clone_from(&transform.pre_scale(x, y, z));
+}
+
+#[no_mangle]
+pub fn euclid_transform3d_f32_pre_rotate(
+    transform: &mut TransformF32,
+    x: f32,
+    y: f32,
+    z: f32,
+    radians: f32,
+) {
+    transform.clone_from(&transform.pre_rotate(x, y, z, Angle::radians(radians)));
 }
