@@ -38,7 +38,7 @@ GtEuclidTransform2D class >> new [
 	^ self identity
 ]
 
-{ #category : #'api - transformations' }
+{ #category : #'api - testing' }
 GtEuclidTransform2D >> approxEquals: aGtEuclidTransform2D [
 	^ self primApproxEqual: aGtEuclidTransform2D
 ]
@@ -61,11 +61,6 @@ GtEuclidTransform2D >> postScale: aPoint [
 { #category : #'api - transformations' }
 GtEuclidTransform2D >> postTranslate: aPoint [
 	self primPostTranslateX: aPoint x Y: aPoint y
-]
-
-{ #category : #'api - transformations' }
-GtEuclidTransform2D >> postTranslateX: aX Y: aY [
-	self primPostTranslateX: aX Y: aY
 ]
 
 { #category : #'api - transformations' }
@@ -124,15 +119,66 @@ GtEuclidTransform2D >> primPreTranslateX: aX Y: aY [
 ]
 
 { #category : #'private - ffi' }
+GtEuclidTransform2D >> primTo3D: aGtEuclidTransform3D [
+	self ffiCall: #(void euclid_transform2d_f32_to_3d(void* self, void* aGtEuclidTransform3D))
+]
+
+{ #category : #'private - ffi' }
 GtEuclidTransform2D >> primTransformPoint: aGtEuclidPoint2D [
 	self ffiCall: #(void euclid_transform2d_f32_transform_point(void* self, void* aGtEuclidPoint2D))
 ]
 
-{ #category : #'api - transformations' }
+{ #category : #'private - ffi' }
+GtEuclidTransform2D >> primTransformRect: aGtEuclidRect [
+	self ffiCall: #(void euclid_transform2d_f32_transform_rect(void* self, void* aGtEuclidRect))
+]
+
+{ #category : #'private - ffi' }
+GtEuclidTransform2D >> primTransformVector: aGtEuclidVector2D [
+	self ffiCall: #(void euclid_transform2d_f32_transform_vector(void* self, void* aGtEuclidVector2D))
+]
+
+{ #category : #printing }
+GtEuclidTransform2D >> printOn: aStream [
+	aStream
+		nextPut: $|; space; print: (self at: 1); space; print: (self at: 2); space; nextPut: $|; cr;
+		nextPut: $|; space; print: (self at: 3); space; print: (self at: 4); space; nextPut: $|; cr;
+		nextPut: $|; space; print: (self at: 5); space; print: (self at: 6); space; nextPut: $|
+]
+
+{ #category : #'api - geometry' }
+GtEuclidTransform2D >> to3D [
+	<return: #GtEuclidTransform3D>
+	| aTransform3D |
+	
+	aTransform3D := GtEuclidTransform3D new.
+	self primTo3D: aTransform3D.
+	^ aTransform3D
+]
+
+{ #category : #'api - geometry' }
 GtEuclidTransform2D >> transformPoint: aGtEuclidPoint2D [
 	"In-place transform and return given point"
 	<return: #GtEuclidPoint2D>
 
 	self primTransformPoint: aGtEuclidPoint2D.
 	^ aGtEuclidPoint2D
+]
+
+{ #category : #'api - geometry' }
+GtEuclidTransform2D >> transformRectangle: aGtEuclidRectangle [
+	"In-place transform and return given rectangle"
+	<return: #GtEuclidRectangle>
+
+	self primTransformVector: aGtEuclidRectangle.
+	^ aGtEuclidRectangle
+]
+
+{ #category : #'api - geometry' }
+GtEuclidTransform2D >> transformVector: aGtEuclidVector2D [
+	"In-place transform and return given vector"
+	<return: #GtEuclidVector2D>
+
+	self primTransformVector: aGtEuclidVector2D.
+	^ aGtEuclidVector2D
 ]
