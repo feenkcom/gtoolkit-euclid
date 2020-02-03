@@ -7,6 +7,11 @@ pub fn euclid_transform2d_f32_load_identity(transform: &mut Transform2D) {
 }
 
 #[no_mangle]
+pub fn euclid_transform2d_f32_post_transform(transform: &mut Transform2D, matrix: &mut Transform2D) {
+    transform.clone_from(&transform.post_transform(matrix));
+}
+
+#[no_mangle]
 pub fn euclid_transform2d_f32_post_translate(transform: &mut Transform2D, x: f32, y: f32) {
     transform.clone_from(&transform.post_translate(Vector2D::new(x, y)));
 }
@@ -19,6 +24,11 @@ pub fn euclid_transform2d_f32_post_scale(transform: &mut Transform2D, x: f32, y:
 #[no_mangle]
 pub fn euclid_transform2d_f32_post_rotate(transform: &mut Transform2D, radians: f32) {
     transform.clone_from(&transform.post_rotate(Angle::radians(radians)));
+}
+
+#[no_mangle]
+pub fn euclid_transform2d_f32_pre_transform(transform: &mut Transform2D, matrix: &mut Transform2D) {
+    transform.clone_from(&transform.pre_transform(matrix));
 }
 
 #[no_mangle]
