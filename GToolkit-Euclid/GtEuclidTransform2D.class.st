@@ -205,7 +205,7 @@ GtEuclidTransform2D >> transformRectangle: aGtEuclidRectangle [
 	"In-place transform and return given rectangle"
 	<return: #GtEuclidRectangle>
 
-	self primTransformVector: aGtEuclidRectangle.
+	self primTransformRect: aGtEuclidRectangle.
 	^ aGtEuclidRectangle
 ]
 
